@@ -4,8 +4,6 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="description" content="Nik Jain — Enterprise AI. Modernizing trillion-dollar financial systems into AI-native platforms, and building AI-first products from zero.">
-<meta property="og:title" content="Nik Jain · Enterprise AI">
-<meta property="og:description" content="Modernizing trillion-dollar financial systems into AI-native platforms, and building AI-first products from zero.">
 <title>Nik Jain · Enterprise AI</title>
 
 <style>
@@ -178,6 +176,10 @@
   .contact-links a { font-size: 15px; font-weight: 600; border: 1px solid var(--line-2); border-radius: 8px; padding: 12px 20px; transition: border-color .2s, color .2s; }
   .contact-links a:hover { border-color: var(--accent); color: var(--accent); }
   .contact-links a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 56px; align-items: start; }
+  .contact-grid .contact-links { margin-top: 6px; }
+  .contact-grid .intersection { margin-top: 28px; }
+  @media (max-width: 820px) { .contact-grid { grid-template-columns: 1fr; gap: 28px; } }
   .intersection { margin-top: 40px; max-width: 56ch; font-size: 17px; color: var(--muted); }
   .intersection b { color: var(--ink); font-weight: 700; }
   .tags { margin-top: 18px; display: flex; flex-wrap: wrap; gap: 7px; max-width: 80ch; }
@@ -370,16 +372,20 @@
 
   <footer id="contact">
     <div class="wrap">
-      <span class="eyebrow reveal">Find me</span>
-      <h2 class="contact-title reveal">Let's build where AI meets the systems that matter.</h2>
-      <div class="contact-links reveal">
-        <a href="https://www.linkedin.com/in/niktechnologist/">LinkedIn ↗</a>
-        <a href="https://x.com/NIkJain1510">X / Twitter ↗</a>
-        <a href="mailto:nikjain1588@gmail.com">✉&#xFE0E; nikjain1588@gmail.com</a>
-      </div>
-      <p class="intersection reveal"><b>I work at the intersection of product and engineering for enterprise AI</b>. A role that goes by many names.</p>
-      <div class="tags reveal">
-        <span>AI Product Manager</span><span>Technical PM</span><span>Technical Program Manager</span><span>Forward Deployed Engineer</span><span>Founding PM</span><span>Founding Engineer</span><span>AI Transformation Lead</span><span>Enterprise AI</span><span>Legacy Modernization</span><span>Agentic AI</span><span>LLM · RAG · evals</span>
+      <div class="contact-grid reveal">
+        <div><span class="eyebrow">Find me</span>
+        <h2 class="contact-title">Let's build where AI meets the systems that matter.</h2></div>
+        <div>
+          <div class="contact-links">
+            <a href="https://www.linkedin.com/in/niktechnologist/">LinkedIn ↗</a>
+            <a href="https://x.com/NIkJain1510">X / Twitter ↗</a>
+            <a href="mailto:nikjain1588@gmail.com">✉&#xFE0E; nikjain1588@gmail.com</a>
+          </div>
+          <p class="intersection"><b>I work at the intersection of product and engineering for enterprise AI</b>. A role that goes by many names.</p>
+          <div class="tags">
+            <span>AI Product Manager</span><span>Technical PM</span><span>Technical Program Manager</span><span>Forward Deployed Engineer</span><span>Founding PM</span><span>Founding Engineer</span><span>AI Transformation Lead</span><span>Enterprise AI</span><span>Legacy Modernization</span><span>Agentic AI</span><span>LLM · RAG · evals</span>
+          </div>
+        </div>
       </div>
       <div class="colophon reveal">Nik Jain · modernizing what exists, building what's next.</div>
     </div>
