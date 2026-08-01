@@ -165,7 +165,7 @@
   .interop p b { font-weight: 700; }
 
   /* track record */
-  .cred-head { display: flex; justify-content: flex-start; align-items: baseline; gap: 16px; flex-wrap: wrap; margin-top: 44px; }
+  .cred-head { display: flex; justify-content: flex-start; align-items: baseline; gap: 16px; flex-wrap: wrap; }
   .cred-head .role { font-size: 22px; font-weight: 800; letter-spacing: -0.01em; }
   .cred-head .yrs { font-size: 14px; color: var(--faint); font-variant-numeric: tabular-nums; }
   .cred-sub { margin-top: 4px; color: var(--muted); font-size: 16px; }
@@ -176,14 +176,18 @@
   .cred li .n { font-variant-numeric: tabular-nums; color: var(--accent-ink); font-weight: 700; }
   .cred .base { margin-top: 30px; font-size: 15.5px; color: var(--muted); line-height: 1.7; }
   .cred .base b { color: var(--ink); font-weight: 600; }
-  .cred-body { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: stretch; margin-top: 24px; }
-  .cred-body > ul { display: flex; flex-direction: column; justify-content: space-between; height: 100%; }
+  .cred-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: stretch; margin-top: 44px; }
+  .cred-left { display: flex; flex-direction: column; }
+  .cred-left ul { flex: 1; display: flex; flex-direction: column; justify-content: space-between; margin-top: 22px; }
+  @media (max-width: 900px) { .cred-cols { grid-template-columns: 1fr; } }
   .cred-body ul { margin-top: 0; }
-  .cred-side { display: flex; flex-direction: column; gap: 22px; }
+  .cred-side { display: flex; flex-direction: column; }
+  .cred-side .os-card { flex: 1; display: flex; flex-direction: column; justify-content: space-between; }
+  .os-card ul { flex: 1; display: flex; flex-direction: column; justify-content: space-evenly; }
   .cred-side .base { margin-top: 0; }
   .os-card { border: 1px solid color-mix(in srgb, var(--accent) 45%, var(--line)); border-radius: 14px;
     padding: 20px 22px; background: color-mix(in srgb, var(--accent) 4%, var(--panel)); }
-  .os-card ul { list-style: none; margin-top: 12px; display: flex; flex-direction: column; gap: 8px; }
+  .os-card ul { list-style: none; margin-top: 12px; }
   .os-card li { position: relative; padding-left: 16px; font-size: 14.5px; color: var(--muted); line-height: 1.5; }
   .os-card li::before { content: ""; position: absolute; left: 0; top: 8px; width: 5px; height: 5px; border-radius: 50%; background: var(--accent); }
   .os-card li b { color: var(--ink); font-weight: 700; }
@@ -408,17 +412,19 @@
       </div>
 
       <div class="cred reveal">
+        <div class="cred-cols">
+        <div class="cred-left">
         <div class="cred-head">
           <div class="role">CredR · Co-founder</div>
           <div class="yrs">2015-2021</div>
         </div>
         <div class="cred-sub">India's largest used two-wheeler marketplace.</div>
-        <div class="cred-body">
           <ul>
             <li><b>Scaled it 0-to-1</b>: <span class="n">150K+</span> transactions, <span class="n">$29.5M</span> raised (Yamaha, Eight Roads, Omidyar), a <span class="n">450</span>-person team, a Top-20 Indian startup.</li>
             <li><b>Modernized an entire dealer network</b>: took <span class="n">1,050</span> dealers off handwritten ledgers onto a mobile-first, ML-powered platform (<span class="n">10×</span> consumer growth), the same instinct I now apply at $1.6T scale.</li>
             <li><b>AI from day one</b>: an ML buyback model over <span class="n">800K</span> vehicle histories; NLP chatbots that cut resolution time <span class="n">42%</span>.</li>
           </ul>
+        </div>
           <div class="cred-side">
             <div class="os-card">
               <div class="os-tag">The decade, systematized</div>
