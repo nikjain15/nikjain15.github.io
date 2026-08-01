@@ -165,7 +165,7 @@
   .interop p b { font-weight: 700; }
 
   /* track record */
-  .cred-head { display: flex; justify-content: space-between; align-items: baseline; gap: 14px; flex-wrap: wrap; margin-top: 44px; }
+  .cred-head { display: flex; justify-content: flex-start; align-items: baseline; gap: 16px; flex-wrap: wrap; margin-top: 44px; }
   .cred-head .role { font-size: 22px; font-weight: 800; letter-spacing: -0.01em; }
   .cred-head .yrs { font-size: 14px; color: var(--faint); font-variant-numeric: tabular-nums; }
   .cred-sub { margin-top: 4px; color: var(--muted); font-size: 16px; }
@@ -176,7 +176,8 @@
   .cred li .n { font-variant-numeric: tabular-nums; color: var(--accent-ink); font-weight: 700; }
   .cred .base { margin-top: 30px; font-size: 15.5px; color: var(--muted); line-height: 1.7; }
   .cred .base b { color: var(--ink); font-weight: 600; }
-  .cred-body { display: grid; grid-template-columns: 1.25fr 0.75fr; gap: 56px; align-items: start; margin-top: 24px; }
+  .cred-body { display: grid; grid-template-columns: 1.25fr 0.75fr; gap: 56px; align-items: stretch; margin-top: 24px; }
+  .cred-body > ul { display: flex; flex-direction: column; justify-content: space-between; height: 100%; }
   .cred-body ul { margin-top: 0; }
   .cred-side { display: flex; flex-direction: column; gap: 22px; }
   .cred-side .base { margin-top: 0; }
