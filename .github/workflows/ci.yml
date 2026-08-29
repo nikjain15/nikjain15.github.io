@@ -1,0 +1,47 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  docs:
+    name: Relative links resolve
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      # Offline by design. An external link checker goes red when somebody
+      # else's site is down, which teaches people to ignore the build; this
+      # only follows links whose target is inside the repository, so every
+      # failure is our own broken cross-reference.
+      - name: Check relative links
+        run: python3 scripts/check_links.py
+
+  html:
+    name: index.html parses
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      # This repo IS the deployed site: a malformed index.html is the whole
+      # product broken, and GitHub Pages will serve it regardless.
+      - name: Parse index.html
+        run: |
+          python3 - <<'PY'
+          from html.parser import HTMLParser
+          HTMLParser().feed(open('index.html', encoding='utf-8').read())
+          print('index.html parses')
+          PY
