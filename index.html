@@ -143,6 +143,8 @@
   .shot-ff img { height: 280px; object-fit: contain; object-position: center; }
   .shot-conduit { background: color-mix(in srgb, var(--accent) 6%, var(--panel)); }
   .shot-conduit .shot-body { height: 280px; padding: 16px 18px; display: flex; flex-direction: column; gap: 14px; }
+  .shot-relay { background: color-mix(in srgb, var(--accent) 6%, var(--panel)); }
+  .shot-relay .shot-body { height: 280px; padding: 16px 18px; display: flex; flex-direction: column; gap: 14px; }
   .cx-tabs { display: flex; flex-wrap: wrap; gap: 14px; font-size: 12.5px; color: var(--faint); border-bottom: 1px solid var(--line); padding-bottom: 10px; }
   .cx-tabs .cx-on { color: var(--accent); font-weight: 700; border-bottom: 2px solid var(--accent); padding-bottom: 8px; margin-bottom: -11px; }
   .cx-rows { display: flex; flex-direction: column; gap: 10px; }
@@ -342,6 +344,20 @@
             <li><b>Quality as a gate</b>: fail-closed evals inline, named metrics offline, and an MCP surface so any capability is pluggable</li>
           </ul>
           <div class="meta"><span class="live">● open source</span> · TypeScript monorepo · <span class="num">10</span> packages · HTTP + MCP gateway · CI green</div>
+        </article>
+
+        <article class="card reveal">
+          <div class="shot shot-relay"><div class="bar"><i></i><i></i><i></i><span class="url">relay · advisor inbox</span></div><div class="shot-body"><div class="cx-tabs"><span class="cx-on">Decide now</span><span>Agents prepared</span><span>Ran today</span></div><div class="cx-rows"><div class="cx-row"><span>Reg BI review</span><span class="cx-m">Hold: care-obligation record incomplete</span></div><div class="cx-row"><span>Discovery</span><span class="cx-m">3 opportunities, cited to the sentence</span></div><div class="cx-row"><span>Options &amp; consequences</span><span class="cx-m">Graded: after-tax, cost, access, rate risk</span></div></div><div class="cx-note">18 agents · reads the book, drafts, a person sends</div></div></div>
+          <span class="tag">FinServ Compliance · Agentic Systems</span>
+          <h3>Relay <a href="https://nikjain15.github.io/relay/">Live ↗</a> <a href="https://github.com/nikjain15/relay">Code ↗</a></h3>
+          <div class="tl">Relay reads the book, drafts and prepares; a person decides and sends.</div>
+          <div class="pr">A wealth manager's AI can flag twenty million client opportunities a year, but turning one into a documented, approved, client-facing action is the part nothing does.</div>
+          <ul>
+            <li><b>Eighteen agents</b>, eight mirroring real compliance desks (Reg BI, complaints, vulnerable-client protection), reading the whole book on a cadence and citing every claim</li>
+            <li><b>No outbound send path exists in the codebase</b>: enforced by dependency-cruiser and a CSP that blocks it, not a permission the UI withholds</li>
+            <li><b>An eval harness that doesn't grade its own homework</b>: expected outputs recomputed from raw CSVs, checked against hand-labeled data across 585 messages, in CI</li>
+          </ul>
+          <div class="meta"><span class="live">● prototype</span> · Next.js 15 · React 19 · TypeScript · <span class="num">344</span> tests · 67 browser checks</div>
         </article>
 
         <article class="card reveal">
