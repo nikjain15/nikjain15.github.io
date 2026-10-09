@@ -1,0 +1,378 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Flight Deck · Nik Jain</title>
+<meta name="description" content="A framework for building AI agents in regulated industries: five parts around the model, each answering one plain question.">
+<meta property="og:title" content="The Flight Deck">
+<meta property="og:description" content="A framework for building AI agents in regulated industries: five parts around the model, each answering one plain question.">
+<meta property="og:image" content="https://nikjain15.github.io/writing/the-flight-deck/cover.png">
+<meta property="og:type" content="article">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://nikjain15.github.io/writing/the-flight-deck/cover.png">
+<link rel="canonical" href="https://nikjain15.github.io/writing/the-flight-deck/">
+<meta name="theme-color" content="#121211">
+<script>try { if (localStorage.getItem('theme') === 'light') document.documentElement.setAttribute('data-theme', 'light'); } catch (e) {}</script>
+<link rel="preload" href="/fonts/DepartureMono-Regular.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&display=swap">
+<style>
+  @font-face { font-family: "Departure Mono"; src: url("/fonts/DepartureMono-Regular.woff2") format("woff2"); font-weight: 400; font-style: normal; font-display: swap; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --bg:#121211; --panel:#191917; --ink:#EDEBE5; --muted:#A8A49B; --faint:#77746D;
+    --line:#2B2A27; --line-2:#3A3935; --accent:#7D8DFF; --accent-ink:#9AA6FF;
+    --sel:rgba(125,141,255,0.22); --grid:rgba(237,235,229,0.04);
+    --serif:"Newsreader", ui-serif, "New York", Georgia, "Times New Roman", serif;
+    --mono:"Departure Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+    --maxw:1140px; color-scheme: dark;
+  }
+  :root[data-theme="light"] {
+    color-scheme: light;
+    --bg:#F5F3EE; --panel:#FBFAF7; --ink:#141414; --muted:#5C5952; --faint:#8C887F;
+    --line:#DCD8CE; --line-2:#C6C1B5; --accent:#2B48FF; --accent-ink:#1F37D6; --sel:rgba(43,72,255,0.14);
+    --grid:rgba(20,20,20,0.045);
+  }
+  html { scroll-behavior: smooth; }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+  body { background: var(--bg); color: var(--ink); font-family: var(--serif); font-size: 19px; line-height: 1.6;
+    -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; overflow-x: hidden; }
+  ::selection { background: var(--sel); }
+  a { color: inherit; text-decoration: none; }
+  .wrap { max-width: var(--maxw); margin: 0 auto; padding: 0 32px; }
+  .label, .nav-links a, .theme-switch button {
+    font-family: var(--mono); font-size: 11px; font-weight: 400; line-height: 1.5; letter-spacing: 0.06em; text-transform: uppercase; }
+  nav { position: sticky; top: 0; z-index: 50; background: color-mix(in srgb, var(--bg) 90%, transparent); backdrop-filter: blur(8px); border-bottom: 1px solid var(--line); }
+  .nav-in { max-width: var(--maxw); margin: 0 auto; padding: 14px 32px; display: flex; align-items: center; justify-content: space-between; gap: 20px; }
+  .brand { font-size: 19px; letter-spacing: -0.01em; display: flex; align-items: center; gap: 10px; }
+  .brand .sq { width: 11px; height: 11px; background: var(--accent); }
+  .nav-links { display: flex; gap: 26px; align-items: center; }
+  .nav-links a { color: var(--muted); transition: color .15s; }
+  .nav-links a:hover, .nav-links a[aria-current] { color: var(--accent); }
+  .theme-switch { display: inline-flex; border: 1px solid var(--line-2); }
+  .theme-switch button { color: var(--muted); background: transparent; border: 0; cursor: pointer; padding: 4px 9px; }
+  .theme-switch button + button { border-left: 1px solid var(--line-2); }
+  .theme-switch button:hover { color: var(--accent); }
+  .theme-switch button[aria-pressed="true"] { background: var(--ink); color: var(--bg); }
+  .theme-switch button:focus-visible, a:focus-visible { outline: 1px solid var(--accent); outline-offset: 3px; }
+  @media (max-width: 700px) { .nav-links a:not([aria-current]) { display: none; } }
+  .masthead { padding: clamp(64px, 10vw, 120px) 0 clamp(40px, 6vw, 64px); border-bottom: 1px solid var(--line);
+    background-image: linear-gradient(var(--grid) 1px, transparent 1px), linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+    background-size: 22px 22px; }
+  .kicker { color: var(--accent); display: inline-flex; flex-wrap: wrap; align-items: center; gap: 10px; }
+  .kicker .no { color: var(--ink); padding: 2px 6px; border: 1px solid var(--line-2); }
+  .masthead h1 { font-size: clamp(44px, 7vw, 84px); font-weight: 400; line-height: 1.02; letter-spacing: -0.025em; margin-top: 24px; text-wrap: balance; }
+  .masthead .dek { margin-top: 22px; max-width: 54ch; font-size: clamp(20px, 2.1vw, 24px); line-height: 1.45; text-wrap: balance; }
+  .masthead .tagline { margin-top: 14px; max-width: 60ch; color: var(--muted); font-style: italic; }
+  .byline { margin-top: 32px; color: var(--faint); display: flex; flex-wrap: wrap; gap: 6px 18px; }
+  .foot { padding: 48px 0 64px; border-top: 1px solid var(--line); margin-top: 64px; }
+  .foot .row { display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; color: var(--faint); }
+  .foot a { color: var(--accent); }
+  @media (max-width: 520px) { .wrap { padding: 0 16px; } .nav-in { padding: 12px 16px; } body { font-size: 17px; } }
+
+  .prose { max-width: 68ch; margin: 0 auto; padding-top: 56px; }
+  .prose p { margin: 0 0 1.05em; }
+  .prose strong { font-weight: 500; }
+  .prose em { font-style: italic; }
+  .prose a { color: var(--accent); border-bottom: 1px solid currentColor; }
+  .prose h2 { font-size: clamp(30px, 4vw, 40px); font-weight: 400; letter-spacing: -0.02em; line-height: 1.1; margin: 2.4em 0 .25em; text-wrap: balance; }
+  .prose h2 .no { display: block; margin-bottom: 14px; font-family: var(--mono); font-size: 11px; letter-spacing: .06em; color: var(--accent); }
+  .prose .q { font-style: italic; color: var(--muted); font-size: 21px; margin-bottom: 1em; }
+  .prose .lead { font-size: 21px; line-height: 1.5; }
+  .prose ul { list-style: none; margin: 0 0 1.2em; border-top: 1px solid var(--line); }
+  .prose ul li { position: relative; padding: 11px 0 11px 24px; border-bottom: 1px solid var(--line); }
+  .prose ul li::before { content: "\2192"; position: absolute; left: 0; top: 15px; font-family: var(--mono); font-size: 11px; color: var(--accent); }
+  .build { position: relative; border: 1px solid var(--line-2); background: var(--panel); padding: 20px 22px 8px; margin: 1.6em 0 2em; }
+  .build::before, .build::after { content: ""; position: absolute; width: 9px; height: 9px; border-color: var(--ink); border-style: solid; }
+  .build::before { top: -1px; left: -1px; border-width: 1px 0 0 1px; }
+  .build::after { bottom: -1px; right: -1px; border-width: 0 1px 1px 0; }
+  .build h3 { font-family: var(--mono); font-weight: 400; font-size: 11px; letter-spacing: .06em; text-transform: uppercase; color: var(--accent); margin-bottom: 6px; }
+  .build ul { border-top: 0; margin: 0; }
+  .build ul li { font-size: 17px; color: var(--muted); }
+  .build ul li:last-child { border-bottom: 0; }
+  figure { margin: 2.2em 0 2.4em; border: 1px solid var(--line); background: var(--bg); }
+  figure svg { display: block; width: 100%; height: auto; }
+  figure .scroll { overflow-x: auto; }
+  figure .scroll svg { min-width: 560px; }
+  figcaption { font-family: var(--mono); font-size: 11px; letter-spacing: .06em; text-transform: uppercase; color: var(--faint); padding: 8px 12px; border-top: 1px solid var(--line); background: var(--panel); }
+  .tbl { overflow-x: auto; margin: 1.2em 0 1.6em; }
+  table { border-collapse: collapse; width: 100%; font-size: 17px; }
+  th, td { text-align: left; padding: 10px 12px 10px 0; border-bottom: 1px solid var(--line); vertical-align: top; }
+  th { font-family: var(--mono); font-weight: 400; font-size: 11px; letter-spacing: .06em; text-transform: uppercase; color: var(--faint); border-bottom-color: var(--ink); }
+  .prose ul.check li { display: grid; grid-template-columns: 8.5rem 1fr; gap: 12px; padding-left: 0; }
+  .prose ul.check li::before { content: none; }
+  .check b { font-family: var(--mono); font-weight: 400; font-size: 11px; letter-spacing: .06em; text-transform: uppercase; color: var(--accent); padding-top: 6px; }
+  @media (max-width: 520px) { .prose ul.check li { grid-template-columns: 1fr; gap: 2px; } }
+  .next { font-style: italic; color: var(--muted); margin-top: 2em !important; }
+  .end { font-size: clamp(26px, 3.4vw, 34px); line-height: 1.25; letter-spacing: -0.015em; margin-top: 1.4em !important; text-wrap: balance; }
+  .src { margin-top: 3em; padding-top: 18px; border-top: 1px solid var(--ink); font-size: 15px; color: var(--muted); line-height: 1.6; }
+  .src strong { font-family: var(--mono); font-weight: 400; font-size: 11px; letter-spacing: .06em; text-transform: uppercase; color: var(--accent); margin-right: 6px; }
+  /* figures, drawn in the site's tokens so they follow the Dark / Light switch */
+  .bg { fill: var(--bg); }
+  .s-panel { fill: var(--panel); stroke: var(--line-2); stroke-width: 1.2; }
+  .s-core { fill: color-mix(in srgb, var(--accent) 14%, var(--panel)); stroke: var(--accent); stroke-width: 2; }
+  .s-wire { stroke: var(--line-2); stroke-width: 1.2; fill: none; }
+  .s-amber { stroke: var(--accent); fill: none; stroke-width: 2; }
+  .s-dash { stroke: var(--line-2); fill: none; stroke-width: 1.4; stroke-dasharray: 6 5; }
+  .t-title { font-family: var(--serif); font-weight: 500; font-size: 18px; fill: var(--ink); }
+  .t-body { font-family: var(--serif); font-size: 15px; fill: var(--muted); }
+  .t-ink { font-family: var(--serif); font-size: 15px; fill: var(--ink); }
+  .t-mono { font-family: var(--mono); font-size: 11px; letter-spacing: .04em; fill: var(--accent); }
+  .t-small { font-family: var(--mono); font-size: 10.5px; fill: var(--muted); }
+  .dot-on { fill: var(--accent); }
+  .dot-off { fill: var(--bg); stroke: var(--accent); stroke-width: 2; }
+</style>
+</head>
+<body>
+<nav>
+  <div class="nav-in">
+    <a href="/" class="brand"><span class="sq"></span> Nik Jain</a>
+    <div class="nav-links">
+      <a href="/#work">Modernization</a>
+      <a href="/#building">Building</a>
+      <a href="/writing/" aria-current="page">Writing</a>
+      <a href="/#track">Background</a>
+      <a href="/#contact">Contact</a>
+      <div class="theme-switch" role="group" aria-label="Color theme">
+        <button type="button" data-set-theme="dark" aria-pressed="true">Dark</button><button type="button" data-set-theme="light" aria-pressed="false">Light</button>
+      </div>
+    </div>
+  </div>
+</nav>
+<main>
+  <header class="masthead">
+    <div class="wrap">
+      <span class="kicker label"><span class="no">No. 1</span> The Supervised Agent</span>
+      <h1>The Flight Deck</h1>
+      <p class="dek">A framework for building AI agents in regulated industries: five parts around the model, each answering one plain question.</p>
+      <p class="tagline">Building AI agents for regulated industries, where every decision has to hold up.</p>
+      <div class="byline label"><span>Nik Jain</span><span>October 2026</span><span>9 min read</span></div>
+    </div>
+  </header>
+  <article class="wrap"><div class="prose">
+
+<p>An autopilot isn't what makes flying safe. The flight deck around it is: the controls that decide what it can move, the envelope it can't fly outside, the checklists run before every takeoff, the crew who know when to take over, and the black box that records the flight.</p>
+
+<p>AI agents in regulated industries need the same thing. The model is the autopilot. Teams pour their effort into it and leave the flight deck for later, and then the agent stalls at its first serious review, because nobody can say what it's allowed to do, how anyone knows it works, or what it did last Tuesday.</p>
+
+<p>One fact from the legal side settles the rest: <strong>the firm owns what its agent does.</strong> When a customer sued Air Canada over its chatbot's wrong answer, the airline argued, in effect, that the chatbot was a separate legal entity responsible for its own actions. The tribunal called that "a remarkable submission" and found the airline liable for negligent misrepresentation. You can't point at the autopilot.</p>
+
+<p>So build the flight deck. Five parts, each answering one question.</p>
+
+<figure><div class="scroll"><svg viewBox="0 0 720 470" role="img" aria-labelledby="f1t">
+<title id="f1t">The Flight Deck: the model at the centre, surrounded by five parts: Controls, Envelope, Checklists, Crew and Black box</title>
+<rect class="bg" x="0" y="0" width="720" height="470"/>
+<g class="s-wire">
+<line x1="360" y1="235" x2="360" y2="98"/><line x1="360" y1="235" x2="560" y2="170"/><line x1="360" y1="235" x2="545" y2="360"/><line x1="360" y1="235" x2="175" y2="360"/><line x1="360" y1="235" x2="160" y2="170"/>
+</g>
+<circle class="s-core" cx="360" cy="235" r="74"/>
+<text class="t-mono" x="360" y="222" text-anchor="middle">AUTOPILOT</text>
+<text class="t-title" x="360" y="246" text-anchor="middle">The model</text>
+<text class="t-small" x="360" y="266" text-anchor="middle">does the work</text>
+<rect class="s-panel" x="255" y="18" width="210" height="80" rx="8"/>
+<text class="t-mono" x="271" y="42">1 · CONTROLS</text><text class="t-title" x="271" y="64">What can it reach?</text><text class="t-small" x="271" y="84">tools, data, permissions</text>
+<rect class="s-panel" x="490" y="128" width="210" height="80" rx="8"/>
+<text class="t-mono" x="506" y="152">2 · ENVELOPE</text><text class="t-title" x="506" y="174">What can it never do?</text><text class="t-small" x="506" y="194">hard and soft limits</text>
+<rect class="s-panel" x="470" y="330" width="230" height="80" rx="8"/>
+<text class="t-mono" x="486" y="354">3 · CHECKLISTS</text><text class="t-title" x="486" y="376">How do we know it works?</text><text class="t-small" x="486" y="396">evals before and in flight</text>
+<rect class="s-panel" x="20" y="330" width="230" height="80" rx="8"/>
+<text class="t-mono" x="36" y="354">4 · CREW</text><text class="t-title" x="36" y="376">Who takes over, and when?</text><text class="t-small" x="36" y="396">humans, tested like controls</text>
+<rect class="s-panel" x="20" y="128" width="210" height="80" rx="8"/>
+<text class="t-mono" x="36" y="152">5 · BLACK BOX</text><text class="t-title" x="36" y="174">Can we replay it?</text><text class="t-small" x="36" y="194">a record of every decision</text>
+<text class="t-small" x="360" y="450" text-anchor="middle">Build the five parts; the model is replaceable, the flight deck is not.</text>
+</svg></div>
+<figcaption>Figure 1 · The Flight Deck</figcaption>
+</figure>
+
+<h2><span class="no">PART 1</span>Controls</h2>
+<p class="q">What can the agent reach?</p>
+<p class="lead">This is the harness: the tools, data and permissions the agent works through. Get it right and most of the risk never reaches the model.</p>
+<p>Start by listing every tool the agent can call and sorting each one by consequence. It <em>reads</em>, it <em>drafts</em>, it <em>acts inside the firm</em>, or it <em>acts outside the firm</em>, toward a customer, a market or a regulator. That sort decides most of what follows, and the model's capability has nothing to do with it.</p>
+<p>Then narrow the reach. The agent gets the fewest tools the task needs, and it acts with the permissions of the person it's working for, never broader ones. If a user couldn't see a record, neither can the agent working on their behalf. The OWASP Top 10 for Agentic Applications puts Tool Misuse and Exploitation and Identity and Privilege Abuse at numbers two and three.</p>
+<p>Last, move every deterministic step out of the model and into the harness. Lookups, calculations, eligibility rules and required disclosures belong in code, running before the model is called and again on what it returns. The rule I use: if a check can be written as code, it doesn't belong in a prompt. Code costs nothing to run and can be shown to an auditor line by line. The model gets only the work that rules can't do.</p>
+<div class="build"><h3>Build this</h3><ul>
+<li>A tool inventory, one row per tool, with its consequence class</li>
+<li>Credentials scoped to the user, not to the agent</li>
+<li>Deterministic checks that run before and after the model call</li></ul></div>
+
+<h2><span class="no">PART 2</span>Envelope</h2>
+<p class="q">What can it never do?</p>
+<p class="lead">Aviation has two kinds of limit, and agents need both.</p>
+<p>On a fly-by-wire aircraft, the flight computer keeps the plane inside its safe envelope. Airbus built <strong>hard limits</strong>: in its normal control law, the aircraft won't exceed its set bank, pitch and angle-of-attack limits, whatever the pilot asks for. Boeing built <strong>soft limits</strong>: the controls push back harder as the pilot nears a limit, but a pilot who pushes harder still can go through it. Both are deliberate designs, and the choice depends on what's at stake.</p>
+<p>Your agent's envelope works the same way. Hard limits are enforced in code and the agent can't cross them: nothing leaves the firm without approval, no action above a set amount, no restricted data in an outbound message. Soft limits stop the agent and call a person: an answer a check scores low, an unusual request, a figure outside the normal range.</p>
+
+<figure><div class="scroll"><svg viewBox="0 0 720 330" role="img" aria-labelledby="f2t">
+<title id="f2t">The envelope: normal operation inside soft limits, inside hard limits</title>
+<rect class="bg" x="0" y="0" width="720" height="330"/>
+<rect class="s-amber" x="10" y="10" width="700" height="310" rx="14"/>
+<text class="t-mono" x="30" y="38">HARD LIMITS · ENFORCED IN CODE · THE AGENT CANNOT CROSS</text>
+<text class="t-ink" x="30" y="62">Send outside the firm without approval · act above a set amount · move restricted data</text>
+<rect class="s-dash" x="50" y="88" width="620" height="210" rx="12"/>
+<text class="t-mono" x="70" y="116">SOFT LIMITS · FLAGGED · A PERSON CAN OVERRIDE</text>
+<text class="t-ink" x="70" y="140">Low score on a check · unusual request · figure outside the normal range</text>
+<rect class="s-core" x="100" y="166" width="520" height="104" rx="10"/>
+<text class="t-mono" x="360" y="204" text-anchor="middle">NORMAL OPERATION</text>
+<text class="t-title" x="360" y="230" text-anchor="middle">The agent acts on its own here</text>
+<text class="t-small" x="360" y="252" text-anchor="middle">and only here</text>
+</svg></div>
+<figcaption>Figure 2 · The envelope has two edges</figcaption>
+</figure>
+
+<p>Two choices make the envelope easy to defend. Keep the limits as versioned data, not as sentences in a prompt, so the people accountable for them can read, approve and change them without an engineer. And let a lower layer tighten a limit but never loosen it. A team can make a firm-wide rule stricter for its own clients; it can't switch one off. If someone tries, record the attempt. That's a signal in itself.</p>
+<div class="build"><h3>Build this</h3><ul>
+<li>A list of hard limits, each enforced by code with a test that proves it</li>
+<li>A list of soft limits, each with who gets called and how fast</li>
+<li>Limits stored as versioned data that can only be tightened</li></ul></div>
+
+<h2><span class="no">PART 3</span>Checklists</h2>
+<p class="q">How do you know it works, today?</p>
+<p class="lead">Pilots don't trust that the aircraft worked yesterday. They run the checklist every time. Evals are your checklists, and they run at three moments.</p>
+
+<figure><div class="scroll"><svg viewBox="0 0 720 260" role="img" aria-labelledby="f3t">
+<title id="f3t">Evals at three moments: before takeoff, in flight, after landing, with incidents feeding back into new checks</title>
+<rect class="bg" x="0" y="0" width="720" height="260"/>
+<rect class="s-panel" x="10" y="20" width="210" height="120" rx="8"/>
+<text class="t-mono" x="26" y="46">BEFORE TAKEOFF</text><text class="t-title" x="26" y="70">Release gate</text>
+<text class="t-body" x="26" y="94">Offline eval suite.</text><text class="t-body" x="26" y="114">Fails, it doesn't ship.</text>
+<rect class="s-panel" x="255" y="20" width="210" height="120" rx="8"/>
+<text class="t-mono" x="271" y="46">IN FLIGHT</text><text class="t-title" x="271" y="70">Live monitors</text>
+<text class="t-body" x="271" y="94">Sampled review, drift,</text><text class="t-body" x="271" y="114">limit triggers.</text>
+<rect class="s-panel" x="500" y="20" width="210" height="120" rx="8"/>
+<text class="t-mono" x="516" y="46">AFTER LANDING</text><text class="t-title" x="516" y="70">Debrief</text>
+<text class="t-body" x="516" y="94">Every incident and</text><text class="t-body" x="516" y="114">send-back, examined.</text>
+<g class="s-wire"><line x1="220" y1="80" x2="250" y2="80"/><polyline points="243,74 251,80 243,86"/><line x1="465" y1="80" x2="495" y2="80"/><polyline points="488,74 496,80 488,86"/></g>
+<path class="s-amber" d="M605 140 V205 H115 V146"/><polyline class="s-amber" points="108,154 115,144 122,154"/>
+<text class="t-mono" x="360" y="232" text-anchor="middle">EVERY FAILURE BECOMES A NEW CHECK</text>
+</svg></div>
+<figcaption>Figure 3 · The checklist loop</figcaption>
+</figure>
+
+<p><strong>Before takeoff,</strong> an offline eval suite is the release gate. It's built from real cases, weighted toward the failures that matter in your domain, and every hard limit from Part 2 has a case in it that tries to cross. If the suite fails, the release doesn't ship.</p>
+<p><strong>In flight,</strong> monitors watch the live system: a sample of outputs reviewed by people, drift in inputs and answers, and how often limits fire.</p>
+<p><strong>After landing,</strong> every incident and every output a reviewer sent back becomes a new item on the checklist. A reviewer explains once, in plain words, why a correct-looking answer was wrong. That sentence is a test case, and in most systems nobody writes it down.</p>
+<p>One decision belongs here and is rarely made out loud: which error you'd rather make. In regulated work a false positive and a false negative usually land on different people. Pick, write it down, and tune for it.</p>
+<div class="build"><h3>Build this</h3><ul>
+<li>An eval suite that gates every release, with a case for every hard limit</li>
+<li>Live monitors with an owner and a threshold each</li>
+<li>A route from every send-back and incident into the suite</li></ul></div>
+
+<h2><span class="no">PART 4</span>Crew</h2>
+<p class="q">Who takes over, and when?</p>
+<p class="lead">The human in the loop is a control. Like any control, it can fail, and it needs testing.</p>
+<p>Aviation ran into this early. In NASA-supported research in the 1990s, Kathleen Mosier, Linda Skitka and colleagues documented <em>automation bias</em>: people following an automated cue even when other valid indicators said it was wrong, and missing problems the automation didn't flag. One finding stands out. Pilots who reported feeling personally accountable for how they used the automation double-checked it more and made fewer errors. Accountability there was self-reported, not manipulated, so treat it as a pattern the researchers flagged rather than a proven cause.</p>
+<p>The same pattern shows up with AI. In an experiment by the European Commission's Joint Research Centre, 1,411 HR and banking professionals in Italy and Germany chose whom to hire or lend to with an AI's advice. They were as likely to follow a discriminatory AI as a fair one, and their oversight didn't prevent the discriminatory outcomes. A person being present isn't the same as a person being effective.</p>
+<p>So design the crew's role as carefully as the agent's. Autonomy is earned one action at a time, never granted to the whole agent. On day one the agent reads and drafts freely, and a person approves anything that acts. Each action class moves only when it has evidence behind it.</p>
+
+<figure><div class="scroll"><svg viewBox="0 0 720 300" role="img" aria-labelledby="f4t">
+<title id="f4t">Autonomy by action: reading and drafting run alone from day one; acting inside the firm can earn autonomy; acting outside stays with a person</title>
+<rect class="bg" x="0" y="0" width="720" height="300"/>
+<text class="t-mono" x="300" y="30" text-anchor="middle">AGENT ALONE</text>
+<text class="t-mono" x="470" y="30" text-anchor="middle">PERSON APPROVES</text>
+<text class="t-mono" x="640" y="30" text-anchor="middle">PERSON ACTS</text>
+<g class="s-wire"><line x1="20" y1="48" x2="700" y2="48"/><line x1="20" y1="108" x2="700" y2="108"/><line x1="20" y1="168" x2="700" y2="168"/><line x1="20" y1="228" x2="700" y2="228"/></g>
+<text class="t-title" x="24" y="84">Reads</text><circle class="dot-on" cx="300" cy="78" r="9"/>
+<text class="t-title" x="24" y="144">Drafts</text><circle class="dot-on" cx="300" cy="138" r="9"/>
+<text class="t-title" x="24" y="204">Acts inside the firm</text><circle class="dot-on" cx="470" cy="198" r="9"/><circle class="dot-off" cx="300" cy="198" r="9"/>
+<path class="s-amber" d="M455 198 H318" stroke-dasharray="5 4"/><polyline class="s-amber" points="326,192 316,198 326,204"/>
+<text class="t-title" x="24" y="264">Acts outside the firm</text><circle class="dot-on" cx="470" cy="258" r="9"/>
+<circle class="dot-on" cx="40" cy="288" r="6"/><text class="t-small" x="52" y="292">day one</text>
+<circle class="dot-off" cx="140" cy="288" r="6"/><text class="t-small" x="152" y="292">earned with evidence</text>
+</svg></div>
+<figcaption>Figure 4 · Autonomy is earned per action, not per agent</figcaption>
+</figure>
+
+<p>Singapore's Model AI Governance Framework for Agentic AI, published in January 2026, makes the same point from the regulator's side: define the significant checkpoints at which human approval is required.</p>
+<p>Then test the crew, the way you'd test any control:</p>
+<ul>
+<li><strong>Plant known errors.</strong> Seed outputs you know are wrong into the live review queue at a fixed rate. The catch rate is the control's real effectiveness.</li>
+<li><strong>Watch the override rate.</strong> Near zero where disagreement should exist is a warning, not a success.</li>
+<li><strong>Ask before you show,</strong> where the work allows. The reviewer forms a view before seeing the agent's answer, which reduces anchoring.</li>
+<li><strong>Make taking over cheap.</strong> Reject, override and stop should each be one click. An override that needs a ticket to another team won't get used.</li>
+</ul>
+<div class="build"><h3>Build this</h3><ul>
+<li>An autonomy map: each action class, its current mode, and what earns the next</li>
+<li>A measured catch rate for every human review step</li>
+<li>One-click reject, override and stop</li></ul></div>
+
+<h2><span class="no">PART 5</span>Black box</h2>
+<p class="q">What happened, and can you replay it?</p>
+<p class="lead">When something goes wrong in March, someone will ask what the agent did in January, and why. The black box is how you answer.</p>
+<p>Record every decision as one entry that someone outside engineering can read, and make it replayable: from the entry alone you can reconstruct the limits, data, prompt and model version as they stood at that moment, not as they stand today. The model's answer may not come out the same twice, so the output is stored in the record, never regenerated.</p>
+
+<figure><div class="scroll"><svg viewBox="0 0 720 300" role="img" aria-labelledby="f5t">
+<title id="f5t">A decision record with ten fields</title>
+<rect class="bg" x="0" y="0" width="720" height="300"/>
+<rect class="s-panel" x="10" y="10" width="700" height="280" rx="10"/>
+<text class="t-mono" x="30" y="40">DECISION RECORD</text>
+<g class="t-ink">
+<text x="30" y="76">Inputs</text><text x="30" y="104">Data version</text><text x="30" y="132">Limits version</text><text x="30" y="160">Model and prompt version</text><text x="30" y="188">Tools called, with arguments</text>
+<text x="380" y="76">Limits triggered</text><text x="380" y="104">Output, as produced</text><text x="380" y="132">Reviewer</text><text x="380" y="160">Verdict</text><text x="380" y="188">Reason, in their own words</text>
+</g>
+<line class="s-wire" x1="30" y1="220" x2="690" y2="220"/>
+<text class="t-small" x="30" y="248">Readable by compliance. Replayable to the minute.</text>
+<text class="t-small" x="30" y="270">Feeds the checklists in Part 3.</text>
+</svg></div>
+<figcaption>Figure 5 · One entry per decision</figcaption>
+</figure>
+
+<p>This isn't only good practice. The EU AI Act requires high-risk AI systems to be technically capable of recording events automatically, as logs, over their lifetime. But the stronger reason is practical: the black box is what turns an incident into a lesson. Its reason field is where your next checklist item comes from.</p>
+<div class="build"><h3>Build this</h3><ul>
+<li>A decision record written for every action, not just failures</li>
+<li>Versioning on limits, data, prompts and models, so a record can be replayed</li>
+<li>A retention period agreed with the people accountable for it</li></ul></div>
+
+<h2>How the five fit together</h2>
+<div class="tbl"><table>
+<thead><tr><th>Part</th><th>Question</th><th>Who owns it</th></tr></thead>
+<tbody>
+<tr><td><strong>Controls</strong></td><td>What can it reach?</td><td>Engineering, with security</td></tr>
+<tr><td><strong>Envelope</strong></td><td>What can it never do?</td><td>Business owner, with compliance</td></tr>
+<tr><td><strong>Checklists</strong></td><td>How do we know it works?</td><td>Product, with domain reviewers</td></tr>
+<tr><td><strong>Crew</strong></td><td>Who takes over, and when?</td><td>Operations, with the accountable owner</td></tr>
+<tr><td><strong>Black box</strong></td><td>Can we replay it?</td><td>Engineering, with risk and audit</td></tr>
+</tbody></table></div>
+<p>Notice who's in that last column. A flight deck is never built by one team. That's the real reason agents stall in regulated industries: one team can build the model, and no one team can build the flight deck.</p>
+
+<h2>What it doesn't solve</h2>
+<p>The framework won't settle a policy nobody has decided. When qualified reviewers keep disagreeing about the same kind of case, no prompt will fix it. That's an open question with an owner somewhere in the firm. The most useful thing the agent can do is surface it, with the cases attached.</p>
+
+<h2>Try this week</h2>
+<p>Pick one agent you're building or running, and do one thing per part.</p>
+<ul class="check">
+<li><b>Controls</b><span>Sort its tools into read, draft, act inside, act outside.</span></li>
+<li><b>Envelope</b><span>Write its three hard limits. Check each one is enforced in code.</span></li>
+<li><b>Checklists</b><span>Turn last month's send-backs into ten eval cases.</span></li>
+<li><b>Crew</b><span>Plant ten known errors in its review queue. Count how many come back.</span></li>
+<li><b>Black box</b><span>Pick one decision from last week. Try to replay it.</span></li>
+</ul>
+<p>If any of those is hard, you've found where to start.</p>
+
+<p class="next">Each issue of The Supervised Agent takes one part of the flight deck and goes deep. Next: the Black box, and the one record your auditor will ask for first.</p>
+
+<p class="end">Nobody boards a plane because the autopilot is clever. They board because of everything built around it.</p>
+
+<div class="src" id="sources"><strong>Sources.</strong> Moffatt v. Air Canada, 2024 BCCRT 149, at para. 27. OWASP GenAI Security Project, OWASP Top 10 for Agentic Applications 2026 (December 2025), ASI02 and ASI03. Boeing, 777 primary flight control system design papers, and Airbus flight control law documentation on normal law protections. Mosier, Skitka, Heers and Burdick, "Automation bias: decision making and performance in high-tech cockpits," International Journal of Aviation Psychology 8(1), 1998; Skitka, Mosier and Burdick, "Does automation bias decision-making?", International Journal of Human-Computer Studies 51(5), 1999; NASA Ames, NASA Technical Reports Server. Gaudeul et al., "Understanding the impact of human oversight on discriminatory outcomes in AI-supported decision-making," European Commission Joint Research Centre, doi 10.3233/FAIA240598, JRC139127 (n = 1,411). Singapore IMDA, Model AI Governance Framework for Agentic AI, 22 January 2026. EU AI Act, Regulation (EU) 2024/1689, Article 12(1).</div>
+</div></article>
+  <div class="wrap"><div class="foot"><div class="row label"><a href="/writing/">&#8592; All writing</a><span>Nik Jain · The Supervised Agent</span></div></div></div>
+</main>
+<script>
+  (function () {
+    var root = document.documentElement;
+    var btns = document.querySelectorAll('[data-set-theme]');
+    function current() { return root.getAttribute('data-theme') === 'light' ? 'light' : 'dark'; }
+    function sync() { btns.forEach(function (b) { b.setAttribute('aria-pressed', String(b.getAttribute('data-set-theme') === current())); }); }
+    sync();
+    btns.forEach(function (b) {
+      b.addEventListener('click', function () {
+        var t = b.getAttribute('data-set-theme');
+        if (t === 'light') root.setAttribute('data-theme', 'light'); else root.removeAttribute('data-theme');
+        try { localStorage.setItem('theme', t); } catch (e) {}
+        sync();
+      });
+    });
+  })();
+</script>
+</body>
+</html>
