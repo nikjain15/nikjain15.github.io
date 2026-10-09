@@ -13,6 +13,7 @@
 <meta name="twitter:image" content="https://nikjain15.github.io/og.png">
 
 <meta name="theme-color" content="#121211">
+<script>try { if (localStorage.getItem('theme') === 'light') document.documentElement.setAttribute('data-theme', 'light'); } catch (e) {}</script>
 <link rel="preload" href="/fonts/DepartureMono-Regular.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -52,7 +53,7 @@
     --maxw: 1140px;
     color-scheme: dark;
   }
-  /* Dark is the default; the toggle opts into the light paper theme. */
+  /* Dark is the default; the Dark / Light switch opts into the light paper theme. */
   :root[data-theme="light"] {
     color-scheme: light;
     --bg:#F5F3EE; --panel:#FBFAF7; --ink:#141414; --muted:#5C5952; --faint:#8C887F;
@@ -79,7 +80,7 @@
 
   /* the one label style: pixel mono, uppercase, tracked */
   .eyebrow, .tag, .os-tag, .lists h3, .stat .k, .a-metrics .k, .yrs, .meta,
-  .nav-links a, .toggle, .contact-links a, .tags span, .colophon, .os-stat > span,
+  .nav-links a, .theme-switch button, .contact-links a, .tags span, .colophon, .os-stat > span,
   .plink, .os-cta, .card h3 a {
     font-family: var(--mono); font-size: 11px; font-weight: 400; line-height: 1.5;
     letter-spacing: 0.06em; text-transform: uppercase;
@@ -102,9 +103,12 @@
   .nav-links { display: flex; gap: 26px; align-items: center; }
   .nav-links a { color: var(--muted); transition: color .15s; }
   .nav-links a:hover { color: var(--accent); }
-  .toggle { color: var(--muted); background: transparent; border: 1px solid var(--line-2); cursor: pointer; padding: 3px 7px; line-height: 1; }
-  .toggle:hover { color: var(--accent); border-color: var(--accent); }
-  .toggle:focus-visible, a:focus-visible { outline: 1px solid var(--accent); outline-offset: 3px; }
+  .theme-switch { display: inline-flex; border: 1px solid var(--line-2); }
+  .theme-switch button { color: var(--muted); background: transparent; border: 0; cursor: pointer; padding: 4px 9px; }
+  .theme-switch button + button { border-left: 1px solid var(--line-2); }
+  .theme-switch button:hover { color: var(--accent); }
+  .theme-switch button[aria-pressed="true"] { background: var(--ink); color: var(--bg); }
+  .theme-switch button:focus-visible, a:focus-visible { outline: 1px solid var(--accent); outline-offset: 3px; }
   @media (max-width: 700px) { .nav-links a { display: none; } }
 
   /* hero: drafting paper */
@@ -319,7 +323,9 @@
       <a href="/build-os/">Build OS</a>
       <a href="#track">Background</a>
       <a href="#contact">Contact</a>
-      <button class="toggle" id="themeToggle" aria-label="Toggle color theme">☀︎</button>
+      <div class="theme-switch" role="group" aria-label="Color theme">
+        <button type="button" data-set-theme="dark" aria-pressed="true">Dark</button><button type="button" data-set-theme="light" aria-pressed="false">Light</button>
+      </div>
     </div>
   </div>
 </nav>
@@ -555,17 +561,19 @@
 <script>
   (function () {
     var root = document.documentElement;
-    var btn = document.getElementById('themeToggle');
-    function current() {
-      var set = root.getAttribute('data-theme');
-      if (set) return set;
-      return 'dark';
+    var btns = document.querySelectorAll('[data-set-theme]');
+    function current() { return root.getAttribute('data-theme') === 'light' ? 'light' : 'dark'; }
+    function sync() {
+      btns.forEach(function (b) { b.setAttribute('aria-pressed', String(b.getAttribute('data-set-theme') === current())); });
     }
-    function sync() { btn.textContent = current() === 'dark' ? '☾' : '☀︎'; }
     sync();
-    btn.addEventListener('click', function () {
-      root.setAttribute('data-theme', current() === 'dark' ? 'light' : 'dark');
-      sync();
+    btns.forEach(function (b) {
+      b.addEventListener('click', function () {
+        var t = b.getAttribute('data-set-theme');
+        if (t === 'light') root.setAttribute('data-theme', 'light'); else root.removeAttribute('data-theme');
+        try { localStorage.setItem('theme', t); } catch (e) {}
+        sync();
+      });
     });
     var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     var els = document.querySelectorAll('.reveal');
