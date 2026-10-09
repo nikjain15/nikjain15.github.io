@@ -12,8 +12,7 @@
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://nikjain15.github.io/og.png">
 
-<meta name="theme-color" content="#F5F3EE" media="(prefers-color-scheme: light)">
-<meta name="theme-color" content="#121211" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#121211">
 <link rel="preload" href="/fonts/DepartureMono-Regular.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -34,35 +33,31 @@
   * { box-sizing: border-box; margin: 0; padding: 0; }
 
   :root {
-    --bg:     #F5F3EE;
-    --panel:  #FBFAF7;
-    --ink:    #141414;
-    --muted:  #5C5952;
-    --faint:  #8C887F;
-    --line:   #DCD8CE;
-    --line-2: #C6C1B5;
-    --accent: #2B48FF;
-    --accent-ink: #1F37D6;
-    --sel:    rgba(43,72,255,0.14);
-    --grid:   rgba(20,20,20,0.045);
+    --bg:     #121211;
+    --panel:  #191917;
+    --ink:    #EDEBE5;
+    --muted:  #A8A49B;
+    --faint:  #77746D;
+    --line:   #2B2A27;
+    --line-2: #3A3935;
+    --accent: #7D8DFF;
+    --accent-ink: #9AA6FF;
+    --sel:    rgba(125,141,255,0.22);
+    --grid:   rgba(237,235,229,0.04);
 
     --serif: "Newsreader", ui-serif, "New York", Georgia, "Times New Roman", serif;
     --mono:  "Departure Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
     --sans:  var(--serif);
 
     --maxw: 1140px;
+    color-scheme: dark;
   }
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme="light"]) {
-      --bg:#121211; --panel:#191917; --ink:#EDEBE5; --muted:#A8A49B; --faint:#77746D;
-      --line:#2B2A27; --line-2:#3A3935; --accent:#7D8DFF; --accent-ink:#9AA6FF; --sel:rgba(125,141,255,0.22);
-      --grid: rgba(237,235,229,0.04);
-    }
-  }
-  :root[data-theme="dark"] {
-    --bg:#121211; --panel:#191917; --ink:#EDEBE5; --muted:#A8A49B; --faint:#77746D;
-    --line:#2B2A27; --line-2:#3A3935; --accent:#7D8DFF; --accent-ink:#9AA6FF; --sel:rgba(125,141,255,0.22);
-    --grid: rgba(237,235,229,0.04);
+  /* Dark is the default; the toggle opts into the light paper theme. */
+  :root[data-theme="light"] {
+    color-scheme: light;
+    --bg:#F5F3EE; --panel:#FBFAF7; --ink:#141414; --muted:#5C5952; --faint:#8C887F;
+    --line:#DCD8CE; --line-2:#C6C1B5; --accent:#2B48FF; --accent-ink:#1F37D6; --sel:rgba(43,72,255,0.14);
+    --grid: rgba(20,20,20,0.045);
   }
 
   html { scroll-behavior: smooth; }
@@ -564,7 +559,7 @@
     function current() {
       var set = root.getAttribute('data-theme');
       if (set) return set;
-      return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      return 'dark';
     }
     function sync() { btn.textContent = current() === 'dark' ? '☾' : '☀︎'; }
     sync();
