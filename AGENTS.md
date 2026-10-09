@@ -7,6 +7,7 @@ A static single-page site. The content lives in `index.html`.
 
 ## Structure
 - `index.html`: the full site (markup, styles, and content in one file).
+- `fonts/`: self-hosted Departure Mono (SIL OFL, license alongside).
 - `CNAME`: custom domain configuration, if present.
 
 ## Setup and build
